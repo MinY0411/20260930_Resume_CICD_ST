@@ -19,7 +19,7 @@ const ok = (msg) => console.log('  [OK]', msg);
 const bad = (msg) => { problems.push(msg); console.log('  [X] ', msg); };
 
 console.log('== 1. 必须有的文件 ==');
-for (const name of ['index.html', 'styles.css', 'app.js']) {
+for (const name of ['index.html', 'styles.css', 'app.js', 'works-data.js', 'works-render.js']) {
   if (fs.existsSync(path.join(root, name))) ok(name);
   else bad(`缺少 ${name}`);
 }

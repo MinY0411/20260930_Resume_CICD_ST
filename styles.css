@@ -28,7 +28,9 @@
   --background: #fbfaf6;
 }
 * { box-sizing: border-box; }
-html { scroll-padding-top: 94px; scroll-behavior: smooth; }
+/* 锚点跳转时给吸顶导航留出空间。平滑滚动统一交给文件末尾的
+   prefers-reduced-motion 规则处理，这里不写死，避免忽略无障碍设置。 */
+html { scroll-padding-top: 94px; }
 body {
   margin: 0;
   color: var(--text);
@@ -51,7 +53,6 @@ h3 { font-size: 22px; font-weight: 600; color: var(--subheading); }
 .site-header { position: sticky; top: 0; z-index: 10; background: #fbfaf6f5; backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
 .header-inner { display: flex; justify-content: space-between; align-items: center; gap: 30px; min-height: 70px; }
 .brand { font-size: 24px; font-weight: 600; color: var(--text); white-space: nowrap; }
-.brand span { font-size: 14px; font-weight: 400; letter-spacing: 1px; margin-left: 12px; color: var(--muted); }
 nav { display: flex; gap: 28px; }
 nav a { color: var(--muted); font-size: 17px; }
 nav a:hover { color: var(--accent); }
@@ -71,12 +72,9 @@ h1 span { font-size: 32px; font-weight: 400; letter-spacing: 0; color: var(--sub
 .research-direction { margin-top: 30px; }
 .research-direction > span { font-size: 20px; font-weight: 600; color: var(--subheading); }
 .research-direction p { margin-top: 8px; font-size: var(--body-size); }
-.research-direction strong { font-weight: 600; color: var(--heading); }
 .profile-details { display: grid; grid-template-columns: 1fr 1.15fr 1.1fr 1.4fr; gap: 28px; margin-top: 22px; }
 .profile-details > div > span { color: var(--subheading); font-size: 15px; }
 .profile-details p { margin-top: 7px; font-size: 16px; }
-.profile-details a { overflow-wrap: anywhere; }
-.birth-date { white-space: nowrap; }
 
 /* 4. 正文平铺：主栏目保留浅底，科研子项目用纯文字、字重和间距分层。 */
 .section { border-top: 1px solid var(--line); padding: 42px 0 46px; }
@@ -94,9 +92,8 @@ h1 span { font-size: 32px; font-weight: 400; letter-spacing: 0; color: var(--sub
 .research-item time { font-size: 16px; font-weight: 400; color: var(--muted); margin-right: 16px; }
 .research-item p { font-size: var(--body-size); margin-top: 8px; line-height: 1.95; }
 .skills-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.skills-list li { font-size: var(--body-size); }
+.skills-list li { padding-top: 15px; border-top: 1px solid #c8baa2; font-size: var(--body-size); }
 .skills-list strong { display: block; margin-bottom: 8px; font-weight: 600; color: var(--subheading); }
-.skills-list li { padding-top: 15px; border-top: 1px solid #c8baa2; }
 /* 作品图像是实际网站截图。Grid 管布局，CSS 过渡负责轻微悬停效果。 */
 #portfolio { background: #f4f2eb; }
 .portfolio-list { padding: 0; margin: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px; }
@@ -129,10 +126,7 @@ h1 span { font-size: 32px; font-weight: 400; letter-spacing: 0; color: var(--sub
 .references strong { font-weight: 600; color: var(--heading); }
 footer { border-top: 1px solid var(--line); padding: 25px 0; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
-.footer-name { font-size: 20px; }
-.footer-name > span { font-size: 17px; margin-left: 8px; color: var(--muted); }
 .footer-inner a { font-size: 16px; }
-.back-top { white-space: nowrap; }
 
 /* 5. 手机只调整布局，所有正文依旧直接可见。 */
 @media (max-width: 1000px) {
@@ -187,16 +181,16 @@ footer { border-top: 1px solid var(--line); padding: 25px 0; }
   .teaching-group { scroll-margin-top: 110px; }
   .skills-list li, .portfolio-list li, .teaching-group li, .references li { font-size: var(--body-size); }
   .footer-inner { display: block; }
-  .footer-inner > div { margin-bottom: 16px; }
 }
-/* 尊重减少动态效果设置：保留阅读、键盘操作，关闭滚动和悬停动画。 */
+/* 尊重“减少动态效果”设置：关闭滚动与悬停动画。
+   （栏目淡入、进度条的关闭规则放在它们各自的定义之后，见文件末尾。） */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *:before, *:after { transition: none !important; animation: none !important; }
   .work-card > a:hover, .work-card > a:hover img { transform: none; }
 }
 @media print {
-  .site-header, .skip-link, .back-top { display: none; }
+  .site-header, .skip-link { display: none; }
   .container { width: 100%; }
   .hero { padding-top: 0; }
   .section { padding: 20px 0; }
@@ -296,7 +290,8 @@ footer { border-top: 1px solid var(--line); padding: 25px 0; }
   transform: none;
 }
 
-/* 系统开了"减少动态效果"时，一切照常显示，不做动画 */
+/* 与前面那条 prefers-reduced-motion 呼应：栏目淡入与进度条也一并关掉。
+   （必须写在上面 .section/.hero 定义之后，否则会被覆盖。） */
 @media (prefers-reduced-motion: reduce) {
   .section, .hero { opacity: 1; transform: none; transition: none; }
   .reading-progress { transition: none; }

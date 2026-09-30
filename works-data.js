@@ -1,16 +1,16 @@
-// 第 5 课：作品数据。
+// 第 5 课：作品数据（作品门户的**唯一数据源**）。
 //
-// 每个对象代表一个作品。**数据和界面完全分开**——
-// 想加一个作品，只在这里加一个对象，HTML 一个字都不用动。
-// 这是本课最重要的一个观念。
+// 想加作品、改标题、换封面、调年份：只改这个文件，
+// index.html 和 works-render.js 都不用动。
 //
-// 六个字段各管一件事：
+// 每个作品七个字段：
 //   title        卡片标题
 //   description  一句话说明
 //   image        封面图路径
 //   url          点击去哪
-//   year         年份，用来排序和显示右上角徽标
-//   tags         标签数组，用来筛选。一个作品可以有多个标签
+//   year         年份，用于排序和右上角徽标
+//   tags         标签数组，用于筛选（可写多个）
+//   theme        卡片主题类名，对应 styles.css 里 .work-xxx .work-cover 的封面色
 const works = [
   {
     title: '长风成卷 · 博客应用',
@@ -19,6 +19,7 @@ const works = [
     url: 'https://ffd-p2-blog.netlify.app/',
     year: 2026,
     tags: ['前端', '后端', '数据库'],
+    theme: 'work-blog',
   },
   {
     title: '群像云图 · 社区应用',
@@ -27,6 +28,7 @@ const works = [
     url: 'https://ffd-p3-community.netlify.app/',
     year: 2026,
     tags: ['前端', '数据库', '部署'],
+    theme: 'work-community',
   },
   {
     title: '一笺心意 · 祝福卡片',
@@ -35,6 +37,7 @@ const works = [
     url: 'https://ffd-p4-greeting-card.netlify.app/',
     year: 2025,
     tags: ['前端', 'AI'],
+    theme: 'work-greeting-card',
   },
   {
     title: '星声音乐站 · 音乐应用',
@@ -43,5 +46,6 @@ const works = [
     url: 'https://ffd-p5-music-station.netlify.app/',
     year: 2025,
     tags: ['前端', '测试'],
+    theme: 'work-music-station',
   },
 ]

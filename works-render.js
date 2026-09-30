@@ -12,7 +12,8 @@ let newestFirst = true
 // ---------- 把一条数据变成一张卡片 ----------
 function createWorkCard(work) {
   const item = document.createElement('li')
-  item.className = 'work-card'
+  // theme 决定封面配色（styles.css 里的 .work-blog 等），没写就只保留基础类
+  item.className = work.theme ? `work-card ${work.theme}` : 'work-card'
 
   // 年份徽标，贴在封面右上角
   const year = document.createElement('span')
